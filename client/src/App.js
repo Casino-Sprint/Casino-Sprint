@@ -1,82 +1,76 @@
 import React, {useState} from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
+import { BrowserRouter as Router, Route, Link, Routes} from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import Button from '@mui/material/Button';
+import './styles.css';
 
-
+// import components
+import {Login} from "./components/Login";
+import {Game} from "./components/Game";
+import {ReadyUp} from "./components/ReadyUp";
 
 export default function App () {
-  // default state
-  const [userState, setUserState] = useState({
-    isLoggedIn : false,
-    userId : ""
-  });
-  
-  const endSession = (email) => {
-    // reset state to default
-    // revoke token?
-    google.accounts.id.revoke(email, done => {
-    console.log('consent revoked');
-  });
 
-    // redirect to logged out page?
-  }
-  const checkPost = () => {
-    fetch('/login',{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        hello:"yoshi racers"
-    })
-    })
-  }
+    // add a useEffect to query DB to get userID
 
-  const successfulGoogleResponse = (credentialResponse) => {
+    // for getting redirects, refer to res.location
 
-    console.log(credentialResponse);
-    const userInfo = jwt_decode(credentialResponse.credential)
-    console.log(userInfo);
-    
-    //fetch to /login, post request, userInfo
-    fetch('/login',{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(userInfo)
-    })
-    .then((res)=> res.json())
+    const [userState, setUserState] = useState({
+        isLoggedIn : false,
+        userId : ""
+    });
 
-    //trigger session start
-    .then((res)=>{
-      console.log(res);
-      //setIsLoggedIn(true);
-      setUserState({isLoggedIn: true, userId: res.body})
-    })
-    .catch(err=>{
-      console.log(err);
-    })
-    
-  }
-  
-  return(
-    <div>
-      <GoogleLogin
-        onSuccess={(credentialResponse) => successfulGoogleResponse(credentialResponse)}
-        onError={() => {
-          console.log('Login Failed');
-        }}
-      />;
+    const [gameState, setGameState] = useState({
+        players: [],
+        slots: {
+            slotCount: 3,
+            slotOptions: [
+                {
+                    name: 'red',
+                    value: 100,
+                    img: ''    
+                },
+                {
+                    name: 'blue',
+                    value: 50,
+                    img: ''    
+                },
+                {
+                    name: 'yellow',
+                    value: 0,
+                    img: ''    
+                },
+                {
+                    name: 'black',
+                    value: -25,
+                    img: ''    
+                },
 
-      <button onClick={() => endSession(userState.userId)}>Log Out</button>
-      <button onClick={checkPost}>POST REQ</button>
-      <h1>ITS YOSHI RACER TIME MFKERSS5555SSS</h1>
-      <h4>more like small mike</h4>
-      <h6>tinyMike</h6>
-      <div>NEW FEATURE</div>
-      <h1>Big Mike Indeed</h1>
-      <h2> again!</h2>
-    </div>
-  )
+            ]
+        },
+        gameSettings: {
+            difficulty: '',
+            defaultSpeed: 10
+        },
+        gameTime: 0,
+        State: 'readyUp',
+        winner: ''
+    })
+
+    return (
+        <div className="mainContainer">
+            <header className="app-header">
+                <h1 className="game-title">Yoshi Racers</h1>
+            </header>
+            <Router>
+                <Routes>
+                    <Route exact path="/" element={<Login/>} />
+                    <Route exact path="/readyup" element={<ReadyUp playerList={gameState.players}/>} />
+                    <Route exact path="/game" element={<Game/>} />
+                </Routes>
+            </Router>
+        </div>
+    )
 }
