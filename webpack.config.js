@@ -23,15 +23,18 @@ module.exports={
            } 
         },
         {
-            test: /.css/,
-            use: ['style-loader','css-loader']
+            test: /.css$/i,
+            use: [
+              'style-loader',
+              'css-loader'
+            ]
         }
     ]
   },
   plugins:[
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname,"client/public/index.html")
-    })
+    }),
   ],
   devServer: {
     // static: {
