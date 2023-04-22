@@ -21,7 +21,7 @@ export default function App () {
     // redirect to logged out page?
   }
   const checkPost = () => {
-    fetch('/api',{
+    fetch('/login',{
       method:"POST",
       headers:{
         "Content-Type":"application/json"
@@ -38,8 +38,8 @@ export default function App () {
     const userInfo = jwt_decode(credentialResponse.credential)
     console.log(userInfo);
     
-    //fetch to /api, post request, userInfo
-    fetch('/api',{
+    //fetch to /login, post request, userInfo
+    fetch('/login',{
       method:"POST",
       headers:{
         "Content-Type":"application/json"

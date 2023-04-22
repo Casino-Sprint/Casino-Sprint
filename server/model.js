@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
 })
 
 const sessionSchema = new mongoose.Schema({
-    ssid:{type: String, required:true},
+    ssid: { type: String, required:true, unique:true },
     createdAt: { type: Date, expires: 86400, default: Date.now }
 })
 
