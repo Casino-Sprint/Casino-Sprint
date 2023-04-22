@@ -2,19 +2,28 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
-const controller = require('./userController');
+const userController = require('./userController');
+const sessionController = require('./sessionController')
 
 
 app.use(express.json());
+app.use(cookieParser())
+app.use(express.urlencoded());
 
 app.get('/api', (req, res)=>{
-    res.status(200).json('server is running')
+  res.status(200).json('server is running')
 })
 
-app.post('/api', (req, res)=>{
-    const {email} = req.body
-    res.status(200).json({email})
+// checks for login
+app.post('/login',
+  userController.createUser,
+  sessionController.setSSIDCookie,
+  sessionController.createSession,
+  sessionController.isLoggedIn,
+  (req, res)=>{
+  res.status(200).json(res.locals.user);
 })
 
 // global error handler
@@ -30,3 +39,4 @@ app.use((err, req, res, next) => {
   });
 
 app.listen(PORT,()=>{console.log(`listening on PORT:${PORT}`)});
+
