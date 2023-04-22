@@ -47,10 +47,13 @@ sessionController.isLoggedIn = async (req, res, next) => {
         }
         // if ssid doesn't exist; redirects to login
         else {
+          //remake****
           res.redirect('/');
         }
       }
       // if ssid doesn't exist; redirects to login
+      
+          //remake****
       res.redirect('/');
   }catch(err){
     return next({

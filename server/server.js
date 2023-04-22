@@ -25,6 +25,10 @@ app.post('/login',
   (req, res)=>{
   res.status(200).json(res.locals.user);
 })
+//grab user doc from db
+app.get('/isLoggedIn', userController.getUser,userController.isLoggedIn, (req, res)=>{
+  res.status(200).json(res.locals.user)
+})
 
 // global error handler
 app.use((err, req, res, next) => {
