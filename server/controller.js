@@ -11,7 +11,7 @@ const userController = {
     if (!given_name || !family_name || !email){
         return next('error in createUser function')
     }
-    //create on user 
+    //create on user
     const newUser = {
       firstName: given_name, 
       lastName: family_name, 
