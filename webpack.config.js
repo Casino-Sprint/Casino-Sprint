@@ -32,5 +32,16 @@ module.exports={
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname,"client/public/index.html")
     })
-  ]
+  ],
+  devServer: {
+    // static: {
+    //   directory: path.resolve(__dirname, 'dist'),
+    //   publicPath: '/build'
+    // },
+    compress: true,
+    port: 8080,
+    proxy: {
+      '/api': 'http://localhost:3000'
+    }
+  }
 }

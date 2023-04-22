@@ -30,13 +30,16 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.12.1",
+    "@react-oauth/google": "^0.10.0",
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
+    "jwt-decode": "^3.1.2",
     "mongoose": "^7.0.4",
     "node": "^19.8.1",
-    "oauth": "^0.10.0",
+    "oauth-2.0": "^0.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-oauth": "^0.0.1",
     "react-router-dom": "^6.10.0"
   }
 }
