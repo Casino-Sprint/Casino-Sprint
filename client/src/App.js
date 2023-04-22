@@ -7,6 +7,7 @@ export default function App () {
       <h4>more like small mike</h4>
       <h6>tinyMike</h6>
       <div>NEW FEATURE</div>
+      <h1>Big Mike Indeed</h1>
     </div>
   )
 }
