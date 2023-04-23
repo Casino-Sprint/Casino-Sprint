@@ -13,6 +13,14 @@ import {ReadyUp} from "./components/ReadyUp";
 
 export default function App () {
 
+    const navigate = useNavigate();
+
+    const testRedirect = () => {
+        console.log('test redirect');
+        
+        navigate('/readyup');
+    }
+    
     const intializeUserState = (userData) => {
         const userStateObj = {
             isLoggedIn : true,
@@ -89,24 +97,19 @@ export default function App () {
         winner: ''
     })
 
-    const testRedirect = () => {
-        console.log('test redirect');
-       
-    }
-
     return (
         <div className="mainContainer">
             <header className="app-header">
                 <h1 className="game-title">Yoshi Racers</h1>
                 <Button onClick={()=>{testRedirect()}}>button</Button>
             </header>
-            <Router>
+            {/* <Router> */}
                 <Routes>
                     <Route exact path="/" element={<Login/>} />
                     <Route exact path="/readyup" element={<ReadyUp playerList={gameState.players}/>} />
                     <Route exact path="/game" element={<Game/>} />
                 </Routes>
-            </Router>
+            {/* </Router> */}
         </div>
     )
 }
