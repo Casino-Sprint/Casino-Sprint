@@ -10,6 +10,7 @@ import './styles.css';
 import {Login} from "./components/Login";
 import {Game} from "./components/Game";
 import {ReadyUp} from "./components/ReadyUp";
+import { red } from '@mui/material/colors';
 
 export default function App () {
 
@@ -52,6 +53,7 @@ export default function App () {
             difficulty: '',
             defaultSpeed: 10
         },
+        gameOn: true,
         gameTime: 0,
         State: 'readyUp',
         winner: ''
@@ -73,9 +75,27 @@ export default function App () {
     
     // function to update our state w/ only permitted updates
     const initializeGameState = (userData) => {
+        const initialPlayersObj = {
+            playerName: userData.firstName,
+            positionOnScreen: 10,
+            speed: 10,
+            isBot: false,
+            img: userData.picture,
+            color: "",
+        };
+
+        const botObj = {
+            playerName: 'bot1',
+            positionOnScreen: 0,
+            speed: 10,
+            isBot: true,
+            img: 'https://www.savepng.com/file/thumb/2020-06/87251-mario-yoshi-green-go-touch-world-line-thumb.png',
+            color: "",
+          };
+        
         const gameStateObj = {
             ...gameState,
-            players: [userData.firstName]
+            players: [initialPlayersObj, botObj]
         }
 
         setGameState(gameStateObj);
@@ -98,6 +118,22 @@ export default function App () {
         })
     },[]);
 
+    // game logic/engine
+
+    const renderTick = () => {
+        //if gameOn = true
+        // update state for each player, update racerpositiononscreen
+        const newPlayersArr = []
+
+        gameState.players.forEach(player => {
+            
+        }) 
+
+        setGameState({})
+        //check if win state gets triggered
+    
+    }
+
     return (
         <div className="mainContainer">
             <header className="app-header">
@@ -114,7 +150,7 @@ export default function App () {
                             />
                     }/>
                     <Route exact path="/readyup" element={<ReadyUp playerList={gameState.players}/>} />
-                    <Route exact path="/game" element={<Game/>} />
+                    <Route exact path="/game" element={<Game gameState={gameState}/>} />
                 </Routes>
         </div>
     )

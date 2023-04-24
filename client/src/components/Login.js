@@ -15,7 +15,13 @@ export const Login = ({intializeUserState, readyUpRedirect ,initializeGameState}
     //decode token
     const userInfo = jwt_decode(credentialResponse.credential)
     
-    //fetch to /api, post request, userInfo
+    //fetch to /login checks if user has a current session open. if they do they proceed to the readyup page, if not they get sent to the login page. final response from logged in user is:
+    //{
+    //  isLoggedIn:res.locals.isLoggedIn,
+    //  body:res.locals.user,
+    //  location:res.locals.location
+    //}
+
     fetch('/login',{
       method:"POST",
       headers:{
