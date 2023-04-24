@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
 import { BrowserRouter as Router, Route, Link, Routes, redirect, useNavigate} from "react-router-dom";
@@ -15,7 +15,8 @@ import { red } from '@mui/material/colors';
 export default function App () {
 
     const navigate = useNavigate();
-
+    const renderIntervalID = useRef(null);
+    
     const [userState, setUserState] = useState({
         isLoggedIn : false,
         userId : ""
@@ -53,7 +54,7 @@ export default function App () {
             difficulty: '',
             defaultSpeed: 10
         },
-        gameOn: true,
+        gameOn: false,
         gameTime: 0,
         State: 'readyUp',
         winner: ''
@@ -120,18 +121,45 @@ export default function App () {
 
     // game logic/engine
 
+    const manageGame = (action) => {
+        
+        if (action==='start') {
+            setGameState(prev=>{
+                return{...prev, gameOn:true}
+            })
+            renderIntervalID.current = setInterval(renderTick, 50);
+        }
+        if (action==='stop') {
+            console.log('stop1!!!!');
+            setGameState(prev=>{
+                return{...prev, gameOn:false}
+            })
+            clearInterval(renderIntervalID.current); 
+        }
+    }
+
     const renderTick = () => {
-        //if gameOn = true
-        // update state for each player, update racerpositiononscreen
-        const newPlayersArr = []
 
-        gameState.players.forEach(player => {
-            
-        }) 
+        setGameState((prevGameState)=>{
+            // update state for each player, update racerpositiononscreen
+            const newPlayersArr = prevGameState.players.slice();
+            // console.log(newPlayersArr);
 
-        setGameState({})
+            const arr = newPlayersArr.map(player => {
+                // console.log('initial position: ', player.positionOnScreen);
+                const newPosition = player.positionOnScreen + 5;
+                // console.log('new position: ', newPosition);
+                return({
+                    ...player,
+                    positionOnScreen : newPosition
+                })
+            }) 
+
+            console.log(arr);
+
+            return {...prevGameState,players:arr}
+        })
         //check if win state gets triggered
-    
     }
 
     return (
@@ -150,7 +178,7 @@ export default function App () {
                             />
                     }/>
                     <Route exact path="/readyup" element={<ReadyUp playerList={gameState.players}/>} />
-                    <Route exact path="/game" element={<Game gameState={gameState}/>} />
+                    <Route exact path="/game" element={<Game gameState={gameState} manageGame={manageGame}/>} />
                 </Routes>
         </div>
     )
