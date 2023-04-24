@@ -47,16 +47,18 @@ export const Login = ({intializeUserState, readyUpRedirect ,initializeGameState}
   
   return(
     <div className="container Login">
-      <h1>Login</h1>
+      <h1>Login with Google Oauth (very cool!)</h1>
+      <div className="googleLogin">
       <GoogleLogin
         onSuccess={(credentialResponse) => successfulGoogleResponse(credentialResponse)}
         onError={() => {
           console.log('Login Failed');
         }}
-      />;
-      <Button>
+      />
+      </div>
+      {/* <Button>
         <Link className="linkBtn" style={{ textDecoration: 'none' }} to="/readyup">Login with Google</Link>
-      </Button>
+      </Button> */}
     </div>
   )
 }

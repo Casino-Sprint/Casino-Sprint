@@ -27,36 +27,41 @@ export default function App () {
             slotCount: 3,
             slotOptions: [
                 {
-                    name: 'red',
-                    value: 100,
-                    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Color_icon_red.svg/640px-Color_icon_red.svg.png'    
+                    name: 'star',
+                    value: .5,
+                    // img: 'https://preview.redd.it/v2f2u6rvavj41.jpg?width=640&crop=smart&auto=webp&v=enabled&s=d4711f1d85b38d74270c632797240b9c4a6051bc'
+                    img: 'https://mario.wiki.gallery/images/thumb/8/8a/New_Super_Mario_Bros._U_Deluxe_Super_Star.png/1600px-New_Super_Mario_Bros._U_Deluxe_Super_Star.png'    
                 },
                 {
-                    name: 'blue',
-                    value: 50,
-                    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Color_icon_blue.svg/600px-Color_icon_blue.svg.png?20200601173546'    
+                    name: 'mushroom',
+                    value:.25,
+                    img: 'https://static.wikia.nocookie.net/mario/images/9/94/MushroomMarioKart8.png'    
                 },
                 {
-                    name: 'yellow',
+                    name: 'boo',
                     value: 0,
-                    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Color_icon_yellow.svg/640px-Color_icon_yellow.svg.png'    
+                    img: 'https://static.wikia.nocookie.net/mario/images/3/3f/MPS_Boo_Artwork.png'    
                 },
                 {
-                    name: 'black',
-                    value: -25,
-                    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Color_icon_black.svg/640px-Color_icon_black.svg.png'    
+                    name: 'thwomp',
+                    value: -.5,
+                    img: 'https://mario.wiki.gallery/images/thumb/3/34/NSMBU_Thwomp_Artwork.png/280px-NSMBU_Thwomp_Artwork.png'
                 },
-
+                {
+                    name: 'cooked',
+                    value: -10,
+                    img: 'https://static.wikia.nocookie.net/mario/images/e/e2/MPSR_King_Bob_omb.png'
+                }
             ]
         },
         gameSettings: {
             difficulty: '',
-            defaultSpeed: 10
+            defaultSpeed: .5
         },
         gameOn: false,
         gameTime: 0,
         State: 'readyUp',
-        winner: ''
+        winner: null
     })
 
     // method that invokes react router navigate method, (had to declare navigate on line 16)
@@ -77,8 +82,8 @@ export default function App () {
     const initializeGameState = (userData) => {
         const initialPlayersObj = {
             playerName: userData.firstName,
-            positionOnScreen: 10,
-            speed: 10,
+            positionOnScreen: 0,
+            speed: .5,
             isBot: false,
             img: userData.picture,
             color: "",
@@ -87,7 +92,7 @@ export default function App () {
         const botObj = {
             playerName: 'bot1',
             positionOnScreen: 0,
-            speed: 10,
+            speed: .5,
             isBot: true,
             img: 'https://www.savepng.com/file/thumb/2020-06/87251-mario-yoshi-green-go-touch-world-line-thumb.png',
             color: "",
@@ -137,26 +142,48 @@ export default function App () {
         }
     }
 
+    const updateStateSpeed = (newSpeed) =>{
+        console.log(`setting new speed of ${newSpeed}`);
+
+        setGameState(prev=>{
+            const newPlayersArr = prev.players.slice();
+
+            newPlayersArr[0].speed = newSpeed;
+
+            return{...prev, players:newPlayersArr}
+        })
+    }
+
     const renderTick = () => {
 
         setGameState((prevGameState)=>{
             // update state for each player, update racerpositiononscreen
             const newPlayersArr = prevGameState.players.slice();
             // console.log(newPlayersArr);
+            let winnerName = null;
 
             const arr = newPlayersArr.map(player => {
                 // console.log('initial position: ', player.positionOnScreen);
-                const newPosition = player.positionOnScreen + 5;
-                // console.log('new position: ', newPosition);
+                let newPosition = player.positionOnScreen + player.speed;
+                // the user goes back to the start; set speed to move foward
+                if (newPosition < 0) {
+                    newPosition = 0;
+                    player.speed = .1;
+                // if user goes over 100 set position to finish line
+                } else if (newPosition >= 100 && prevGameState.winner === null) {
+                    newPosition = 100;
+                    //call wingame
+                    winnerName = player.playerName;
+                    manageGame('stop');
+                } 
+
                 return({
                     ...player,
                     positionOnScreen : newPosition
                 })
             }) 
 
-            console.log(arr);
-
-            return {...prevGameState,players:arr}
+            return {...prevGameState, winner: winnerName, players:arr}
         })
         //check if win state gets triggered
     }
@@ -164,8 +191,18 @@ export default function App () {
     return (
         <div className="mainContainer">
             <header className="app-header">
-                <h1 className="game-title">Yoshi Racers</h1>
-                <Button onClick={()=>{readyUpRedirect()}}>button</Button>
+                <span className="headerLetter y">Y</span>
+                <span className="headerLetter o">o</span>
+                <span className="headerLetter s">s</span>
+                <span className="headerLetter h">h</span>
+                <span className="headerLetter i">i</span>
+                
+                <span className="headerLetter r">R</span>
+                <span className="headerLetter a">a</span>
+                <span className="headerLetter c">c</span>
+                <span className="headerLetter e">e</span>
+                <span className="headerLetter r">r</span>
+                <span className="headerLetter s">s</span>
             </header>
                 <Routes>
                     <Route exact path="/login" element={
@@ -176,8 +213,8 @@ export default function App () {
                             initializeGameState = {initializeGameState}
                             />
                     }/>
-                    <Route exact path="/readyup" element={<ReadyUp slotOptions={gameState.slots.slotOptions} playerList={gameState.players}/>} />
-                    <Route exact path="/game" element={<Game gameState={gameState} manageGame={manageGame}/>} />
+                    <Route exact path="/readyup" element={<ReadyUp  playerList={gameState.players}/>} />
+                    <Route exact path="/game" element={<Game slotOptions={gameState.slots.slotOptions} gameState={gameState} manageGame={manageGame} updateStateSpeed={updateStateSpeed} />} />
                 </Routes>
         </div>
     )

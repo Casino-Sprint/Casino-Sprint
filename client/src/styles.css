@@ -1,6 +1,50 @@
+body {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
 .app-header{
     text-align: center;
+    margin:10px;
 }
+
+.headerLetter{
+  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+  font-size: 60px;
+}
+
+.y{
+  color:rgb(85, 169, 222);
+}
+.o{
+  color:yellow;
+}
+.s{
+  color:red;
+}
+.h{
+  color:rgb(107, 222, 107);
+}
+.i{
+  color:yellow;
+  margin-right: 10px;
+}
+
+.r{
+  color:red;
+}
+.a{
+  color:rgb(107, 222, 107);
+}
+.c{
+  color:yellow;
+}
+.e{
+  color:red;
+}
+.r{
+  color:rgb(85, 169, 222);
+}
+
 
 .mainContainer{
     text-align: center;
@@ -21,9 +65,13 @@
   border-radius: 8px;
   
 }
+.googleLogin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .raceBoard {
-  background: lightgray;
 }
 
 .lane {
@@ -31,7 +79,11 @@
   margin: 3px auto 3px auto;
   width: 90vw;
   height: 60px;
+  border-radius: 10px;
   background-color: burlywood;
+  background-image: url(https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjkyMjExMTA4YTMxYzBhYjkwZjMzYWFmYjdhOWJkMmJhNDUxZGMzYSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/U7huVmA3TKuqvznInJ/giphy.gif);
+  background-repeat: repeat;
+  background-position: center bottom 28%;
 }
 
 /* .racerPic {
@@ -43,6 +95,7 @@
 } */
 #slot{
   width: 100px;
+  height: 100px;
   margin: 10px;
 }
 
@@ -50,4 +103,59 @@
   align-items: center;
   justify-content: center;
   display: flex;
+}
+
+.gameButton{
+  height:30px;
+  width: 100px;
+  border: none;
+  border-radius: 10px;
+  background-color: aquamarine;
+}
+
+.gameButton:hover{
+  background-color: rgb(90, 168, 142)
+}
+
+.winnerOverlay{
+  position: fixed; /* Sit on top of the page content */
+  height: 80vh;
+  width: 98vw;
+  border-radius: 10px;
+  background-color: rgba(0, 255, 68, 0.5); /* Black background with opacity */
+  box-shadow: inset 2px 2px 5px 2px rgba(75, 77, 82, 0.193);
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.cloud{ 
+  margin-top:70px;
+  background:#ECEFF1;
+  box-shadow: 2px 2px 5px 2px rgba(0,0,0,0.2);
+  border-radius:40px;
+  padding:20px;
+  font-size:60px;
+  overflow:auto; 
+}
+
+
+.charBtn {
+  height: 90%;
+}
+.currChar{
+  height:100px;
+}
+
+.charContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  height: 30vh;
+  width: 75vw;
+  background-color: lightblue;
+  margin: auto;
 }
