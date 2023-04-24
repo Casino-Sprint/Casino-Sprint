@@ -23,29 +23,28 @@ export default function App () {
     });
 
     const [gameState, setGameState] = useState({
-        players: [],
         slots: {
             slotCount: 3,
             slotOptions: [
                 {
                     name: 'red',
                     value: 100,
-                    img: ''    
+                    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Color_icon_red.svg/640px-Color_icon_red.svg.png'    
                 },
                 {
                     name: 'blue',
                     value: 50,
-                    img: ''    
+                    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Color_icon_blue.svg/600px-Color_icon_blue.svg.png?20200601173546'    
                 },
                 {
                     name: 'yellow',
                     value: 0,
-                    img: ''    
+                    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Color_icon_yellow.svg/640px-Color_icon_yellow.svg.png'    
                 },
                 {
                     name: 'black',
                     value: -25,
-                    img: ''    
+                    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Color_icon_black.svg/640px-Color_icon_black.svg.png'    
                 },
 
             ]
@@ -177,7 +176,7 @@ export default function App () {
                             initializeGameState = {initializeGameState}
                             />
                     }/>
-                    <Route exact path="/readyup" element={<ReadyUp playerList={gameState.players}/>} />
+                    <Route exact path="/readyup" element={<ReadyUp slotOptions={gameState.slots.slotOptions} playerList={gameState.players}/>} />
                     <Route exact path="/game" element={<Game gameState={gameState} manageGame={manageGame}/>} />
                 </Routes>
         </div>

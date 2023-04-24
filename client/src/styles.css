@@ -41,3 +41,13 @@
   background-color: red;
   border: 1px solid blue;
 } */
+#slot{
+  width: 100px;
+  margin: 10px;
+}
+
+#slotWrapper {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
