@@ -38,4 +38,22 @@ userController.createUser = async (req, res, next) => {
  
 };
 
+// grabs user
+userController.getUser = async (req,res,next) => {
+  try{
+    const user = await User.findOne({_id:res.locals.id})
+    if(!user){
+      //redirect to login
+    }
+    res.locals.user = user;
+    return next();
+  }catch(err){
+    return next({
+      log: 'getUser error',
+      status: 500,
+      message: { err: 'Unable to get user' },
+    })
+  }
+}
+
 module.exports = userController;

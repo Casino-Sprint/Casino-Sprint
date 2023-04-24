@@ -1,0 +1,23 @@
+.app-header{
+    text-align: center;
+}
+
+.mainContainer{
+    text-align: center;
+    /* border: 1px solid red; */
+}
+
+.container {
+  border: 1px solid aliceblue;
+  border-radius: 10px;
+  background-color: aliceblue;
+  height: 80vh;
+  width: 98vw;
+  box-shadow: inset 2px 2px 5px 2px rgba(75, 77, 82, 0.193);
+}
+
+.playerCard {
+  border: 1px solid rgb(47, 72, 97);
+  border-radius: 8px;
+  
+}
