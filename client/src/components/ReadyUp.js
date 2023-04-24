@@ -2,8 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Button from '@mui/material/Button';
 import '../styles.css';
+import SlotBoard from "./SlotBoard";
 
-export const ReadyUp = (props) => {
+export const ReadyUp = ({slotOptions}) => {
   
   const playerCardMaker = () => {
     <playerCard
@@ -18,6 +19,7 @@ export const ReadyUp = (props) => {
     <div className="container readyUp">
       <h1>Ready Up!</h1>
       <div>Player queue box holds player sprites</div>
+      <SlotBoard slotOptions = {slotOptions}/>
 
       <div>
         Player setup boxes

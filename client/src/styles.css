@@ -21,3 +21,14 @@
   border-radius: 8px;
   
 }
+
+#slot{
+  width: 100px;
+  margin: 10px;
+}
+
+#slotWrapper {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
