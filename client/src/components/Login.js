@@ -15,7 +15,13 @@ export const Login = ({intializeUserState, readyUpRedirect ,initializeGameState}
     //decode token
     const userInfo = jwt_decode(credentialResponse.credential)
     
-    //fetch to /api, post request, userInfo
+    //fetch to /login checks if user has a current session open. if they do they proceed to the readyup page, if not they get sent to the login page. final response from logged in user is:
+    //{
+    //  isLoggedIn:res.locals.isLoggedIn,
+    //  body:res.locals.user,
+    //  location:res.locals.location
+    //}
+
     fetch('/login',{
       method:"POST",
       headers:{
@@ -41,16 +47,18 @@ export const Login = ({intializeUserState, readyUpRedirect ,initializeGameState}
   
   return(
     <div className="container Login">
-      <h1>Login</h1>
+      <h1>Login with Google Oauth (very cool!)</h1>
+      <div className="googleLogin">
       <GoogleLogin
         onSuccess={(credentialResponse) => successfulGoogleResponse(credentialResponse)}
         onError={() => {
           console.log('Login Failed');
         }}
-      />;
-      <Button>
+      />
+      </div>
+      {/* <Button>
         <Link className="linkBtn" style={{ textDecoration: 'none' }} to="/readyup">Login with Google</Link>
-      </Button>
+      </Button> */}
     </div>
   )
 }
