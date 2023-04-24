@@ -15,46 +15,6 @@ export default function App () {
 
     const navigate = useNavigate();
 
-    const testRedirect = () => {
-        console.log('test redirect');
-        
-        navigate('/readyup');
-    }
-    
-    const intializeUserState = (userData) => {
-        const userStateObj = {
-            isLoggedIn : true,
-            userId : userData.email
-        }
-        setUserState(userStateObj);
-    }
-    
-    const initializeGameState = (userData) => {
-        const gameStateObj = {
-            ...gameState,
-            players: [userData.firstName]
-        }
-
-        setGameState(gameStateObj);
-    }
-    
-    // add a useEffect to query DB to get userID
-    // useEffect (() => {
-    //     fetch('/isLoggedIn')
-    //     .then(res => res.json())
-    //     .then(res => {
-    //         //res object is gonna look like {loggedIn: bool, body:User Document obj from mongodb}
-    //         console.log(res)
-    //         if(res.loggedIn){
-    //             intializeUserState(res.body) // update userState w/ session info
-    //             initializeGameState(res.body) // update playerlist inside GameState
-    //             redirect("/readyup");
-    //         }
-    //     })
-    // },[]);
-
-    // for getting redirects, refer to res.location
-
     const [userState, setUserState] = useState({
         isLoggedIn : false,
         userId : ""
@@ -97,19 +57,65 @@ export default function App () {
         winner: ''
     })
 
+    // method that invokes react router navigate method, (had to declare navigate on line 16)
+    const readyUpRedirect = () => {
+        navigate('/readyup');
+    }
+    
+    // function to update our state w/ only permitted updates
+    const intializeUserState = (userData) => {
+        const userStateObj = {
+            isLoggedIn : true,
+            userId : userData.email
+        }
+        setUserState(userStateObj);
+    }
+    
+    // function to update our state w/ only permitted updates
+    const initializeGameState = (userData) => {
+        const gameStateObj = {
+            ...gameState,
+            players: [userData.firstName]
+        }
+
+        setGameState(gameStateObj);
+    }
+    
+    // on loading App component, run fetch request to see if user has a valid session if they do they get directed to login page. if not they get directed to login page
+    useEffect (() => {
+        fetch('/isLoggedIn')
+        .then(res => res.json())
+        .then(res => {
+            //if user has an active session in database server respose
+            //res object is gonna look like {loggedIn: bool, body:User Document obj from mongodb}
+            if(res.isLoggedIn){
+                intializeUserState(res.body) // update userState w/ session info
+                initializeGameState(res.body) // update playerlist inside GameState
+                navigate(res.location);
+            } else {
+                navigate('/login');
+            }
+        })
+    },[]);
+
     return (
         <div className="mainContainer">
             <header className="app-header">
                 <h1 className="game-title">Yoshi Racers</h1>
-                <Button onClick={()=>{testRedirect()}}>button</Button>
+                <Button onClick={()=>{readyUpRedirect()}}>button</Button>
             </header>
-            {/* <Router> */}
                 <Routes>
-                    <Route exact path="/" element={<Login/>} />
+                    <Route exact path="/login" element={
+                        <Login 
+                            // prop drill these components
+                            intializeUserState={intializeUserState} 
+                            readyUpRedirect={readyUpRedirect}
+                            initializeGameState = {initializeGameState}
+                            />
+                    }/>
                     <Route exact path="/readyup" element={<ReadyUp playerList={gameState.players}/>} />
                     <Route exact path="/game" element={<Game/>} />
                 </Routes>
-            {/* </Router> */}
         </div>
     )
 }

@@ -41,8 +41,7 @@ userController.createUser = async (req, res, next) => {
 // grabs user
 userController.getUser = async (req,res,next) => {
   try{
-    const {ssid} = req.cookies;
-    const user = await User.findOne({_id:ssid})
+    const user = await User.findOne({_id:res.locals.id})
     if(!user){
       //redirect to login
     }

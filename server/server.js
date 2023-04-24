@@ -23,11 +23,23 @@ app.post('/login',
   sessionController.createSession,
   sessionController.isLoggedIn,
   (req, res)=>{
-  res.status(200).json(res.locals.user);
+  const resObj = {
+    isLoggedIn:res.locals.isLoggedIn,
+    body:res.locals.user,
+    location:res.locals.location
+  };
+  res.status(200).json(resObj);
 })
 //grab user doc from db
-app.get('/isLoggedIn', userController.getUser,userController.isLoggedIn, (req, res)=>{
-  res.status(200).json(res.locals.user)
+app.get('/isLoggedIn', 
+  sessionController.isLoggedIn, 
+  userController.getUser, 
+  (req, res)=>{
+  const resObj = {
+    isLoggedIn:res.locals.isLoggedIn, 
+    body:res.locals.user, 
+    location:res.locals.location}
+  res.status(200).json(resObj);
 })
 
 // global error handler

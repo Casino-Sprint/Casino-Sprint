@@ -39,22 +39,27 @@ sessionController.createSession = async (req,res,next) => {
 sessionController.isLoggedIn = async (req, res, next) => {
   try{
       const { ssid } = req.cookies;
-      // if ssid exist
+      //check if the user already has an active cookie in database. redirect to the readyup page if they do
       if (ssid) {
+        //check if ssid from user cookie exists is database
         const findSsid = await Session.findOne({ssid})
         if (findSsid){
+          //set up locals wih user info and redirect location to the readyup page
+          res.locals.id = ssid;
+          res.locals.isLoggedIn = true;
+          res.locals.location = '/readyup';
           return next();
         }
-        // if ssid doesn't exist; redirects to login
+        // if ssid doesn't exist in our sessions collection mongodb; redirects to login
         else {
-          //remake****
-          res.redirect('/');
+          res.locals.location = '/login';
+          return next();
+
         }
       }
       // if ssid doesn't exist; redirects to login
-      
-          //remake****
-      res.redirect('/');
+      res.locals.location = '/login'
+      return next();
   }catch(err){
     return next({
       log: 'isLoggedIn error',
