@@ -97,6 +97,10 @@ body {
   width: 100px;
   height: 100px;
   margin: 10px;
+  padding: 10px;
+  background-color: rgb(180, 227, 234);
+  box-shadow: inset 2px 2px 5px 2px rgba(75, 77, 82, 0.193);
+  border-radius: 10px;
 }
 
 #slotWrapper {
@@ -110,21 +114,31 @@ body {
   width: 100px;
   border: none;
   border-radius: 10px;
-  background-color: aquamarine;
+  background-color: rgb(180, 227, 234);
+  box-shadow: 2px 2px 5px 2px rgba(75, 77, 82, 0.193);
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  color:white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .gameButton:hover{
-  background-color: rgb(90, 168, 142)
+  background-color: rgb(149, 192, 197);
 }
 
+.rollButton {
+  width: 400px;
+}
+
+
+
 .winnerOverlay{
-  position: fixed; /* Sit on top of the page content */
+  position: fixed; 
   height: 80vh;
   width: 98vw;
   border-radius: 10px;
-  background-color: rgba(0, 255, 68, 0.5); /* Black background with opacity */
+  background-color: rgba(0, 255, 68, 0.5); 
   box-shadow: inset 2px 2px 5px 2px rgba(75, 77, 82, 0.193);
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  z-index: 2; 
   display:flex;
   align-items: center;
   justify-content: center;
@@ -139,14 +153,36 @@ body {
   padding:20px;
   font-size:60px;
   overflow:auto; 
+  display:flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+
+
+/* Ready Up Screen CSS */
+.readyUp{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .charBtn {
   height: 90%;
 }
+.charBtn:hover {
+  cursor: pointer;
+}
 .currChar{
   height:100px;
+}
+
+.playerCard{
+  width: 75vw;
+  align-self: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: inset 2px 2px 5px 2px rgba(75, 77, 82, 0.193);
+  border:none;
 }
 
 .charContainer {
@@ -158,4 +194,13 @@ body {
   width: 75vw;
   background-color: lightblue;
   margin: auto;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 5px 2px rgba(75, 77, 82, 0.193);
+  margin-bottom:20px;
+}
+
+.slotsValues{
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }

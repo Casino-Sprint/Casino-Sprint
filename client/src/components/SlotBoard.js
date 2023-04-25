@@ -29,13 +29,13 @@ export default function SlotBoard ({slotOptions, updateStateSpeed, gameOn}) {
     //renders 3 slots based off their position in the slotOptions array
     //randomized by function above
     return (
-        <div>
+        <div id="slotContainer">
             <div id="slotWrapper">
                 { slotOptions && <><img id="slot" src= {slotOptions[slotsArr[0]].img}/>
                 <img id="slot" src= {slotOptions[slotsArr[1]].img}/>
                 <img id="slot" src= {slotOptions[slotsArr[2]].img}/></>}
             </div>
-            {gameOn && <><button className="gameButton" onClick = {randomize}>Click to roll</button></>}
+            {gameOn && <><button className="gameButton rollButton" onClick = {randomize}>Click to roll</button></>}
         </div>
     )
 }

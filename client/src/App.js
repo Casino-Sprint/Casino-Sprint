@@ -12,11 +12,20 @@ import {Game} from "./components/Game";
 import {ReadyUp} from "./components/ReadyUp";
 import { red } from '@mui/material/colors';
 
+// import music
+import myAudioResource from './assets/backgroundMusic.wav';
+const backgroundMusic = new Audio(myAudioResource);
+backgroundMusic.volume = .25;
+
+
+// App Component functionality
 export default function App () {
 
+    // need to declare these hooks before any functionality
     const navigate = useNavigate();
     const renderIntervalID = useRef(null);
     
+    // set initial state w/ useState hook
     const [userState, setUserState] = useState({
         isLoggedIn : false,
         userId : ""
@@ -63,6 +72,11 @@ export default function App () {
         State: 'readyUp',
         winner: null
     })
+
+    // play music callback
+    const playMusic = ()=>{
+        backgroundMusic.play();
+    }
 
     // method that invokes react router navigate method, (had to declare navigate on line 16)
     const readyUpRedirect = () => {
@@ -124,7 +138,6 @@ export default function App () {
     },[]);
 
     // game logic/engine
-
     const manageGame = (action) => {
         
         if (action==='start') {
@@ -154,6 +167,22 @@ export default function App () {
         })
     }
 
+    // restart game, basically reset positions, gameOn, and winner keys
+    const resetGame = () => {
+        setGameState((prevGameState)=>{
+            // update state for each player, update racerpositiononscreen
+            const newPlayersArr = prevGameState.players.slice();
+            const arr = newPlayersArr.map(player => {                
+                return({
+                    ...player,
+                    positionOnScreen : 0,
+                    speed: .5
+                })
+            })
+            return {...prevGameState, winner: '', players:arr}
+        }) 
+    }
+
     const renderTick = () => {
 
         setGameState((prevGameState)=>{
@@ -172,7 +201,7 @@ export default function App () {
                 // if user goes over 100 set position to finish line
                 } else if (newPosition >= 100 && prevGameState.winner === null) {
                     newPosition = 100;
-                    //call wingame
+                    //WINNER - update winnerName, stop game
                     winnerName = player.playerName;
                     manageGame('stop');
                 } 
@@ -187,7 +216,13 @@ export default function App () {
         })
         //check if win state gets triggered
     }
-
+    function updatePlayerImg(imgUrl){
+     setGameState(prev=>{
+        const newPlayersArr = prev.players.slice();
+        newPlayersArr[0] = {...newPlayersArr[0],img:imgUrl};
+        return {...prev,players:newPlayersArr};
+     })
+    }
     return (
         <div className="mainContainer">
             <header className="app-header">
@@ -213,8 +248,8 @@ export default function App () {
                             initializeGameState = {initializeGameState}
                             />
                     }/>
-                    <Route exact path="/readyup" element={<ReadyUp  playerList={gameState.players}/>} />
-                    <Route exact path="/game" element={<Game slotOptions={gameState.slots.slotOptions} gameState={gameState} manageGame={manageGame} updateStateSpeed={updateStateSpeed} />} />
+                    <Route exact path="/readyup" element={<ReadyUp  playerList={gameState.players} updatePlayerImg={updatePlayerImg} playMusic={playMusic} />} />
+                    <Route exact path="/game" element={<Game resetGame={resetGame} slotOptions={gameState.slots.slotOptions} gameState={gameState} manageGame={manageGame} updateStateSpeed={updateStateSpeed} playMusic={playMusic} />} />
                 </Routes>
         </div>
     )
