@@ -12,10 +12,21 @@ mongoose.connect(MONGO_URI, {
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.log(err));
 
-const userModel = new mongoose.Schema({
-    firstName: {type: String, required: true}
+const userSchema = new mongoose.Schema({
+    firstName: {type: String, required: true},
+    lastName: {type: String, required:true},
+    email:{type: String, required: true, unique: true},
+    currentSprite: String,
+    winCount: {type:Number, default:0},
+    picture:String
 })
 
-const User = mongoose.model('user', userModel);
+const sessionSchema = new mongoose.Schema({
+    ssid: { type: String, required:true, unique:true },
+    createdAt: { type: Date, expires: 86400, default: Date.now }
+})
 
-module.exports = User;
+const User = mongoose.model('user', userSchema);
+const Session = mongoose.model('session', sessionSchema);
+
+module.exports = {User, Session};

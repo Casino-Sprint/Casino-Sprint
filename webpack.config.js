@@ -23,14 +23,32 @@ module.exports={
            } 
         },
         {
-            test: /.css/,
-            use: ['style-loader','css-loader']
+            test: /.css$/i,
+            use: [
+              'style-loader',
+              'css-loader'
+            ]
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif|ogg|mp3|wav)$/i,
+          type: 'asset/resource',
         }
     ]
   },
   plugins:[
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname,"client/public/index.html")
-    })
-  ]
+    }),
+  ],
+  devServer: {
+    // static: {
+    //   directory: path.resolve(__dirname, 'dist'),
+    //   publicPath: '/build'
+    // },
+    compress: true,
+    port: 8080,
+    proxy: {
+      '/': 'http://localhost:3000'
+    }
+  }
 }
